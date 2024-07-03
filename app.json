@@ -4,10 +4,10 @@
     "slug": "Expense-Tracker",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/dollar.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/money-bag.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
