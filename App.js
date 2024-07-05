@@ -1,4 +1,4 @@
-import { NavigationContainer, } from "@react-navigation/native";
+import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Icon from "react-native-vector-icons/Ionicons";
@@ -17,16 +17,25 @@ const BottomTabs = createBottomTabNavigator();
 function ExpensesOverview() {
   const [isAllExpensesSelected, setAllExpensesSelected] = useState(false);
   const [isRecentExpensesSelected, setRecentExpensesSelected] = useState(false);
-  
+
   return (
     <BottomTabs.Navigator
-      screenOptions={{
+      screenOptions={({navigation})=>({
         headerStyle: { backgroundColor: GlobalStyles.colors.primary500 },
         headerTintColor: "white",
         tabBarStyle: { backgroundColor: GlobalStyles.colors.primary500 },
         tabBarActiveTintColor: GlobalStyles.colors.accent500,
-        headerRight: ({tintColor})=><IconButton icon="add" color={tintColor} size={24} onPress={()=>{}}/>,
-      }}
+        headerRight: ({ tintColor }) => (
+          <IconButton
+            icon="add"
+            color={tintColor}
+            size={24}
+            onPress={() => {
+              navigation.navigate('ManageExpense');
+            }}
+          />
+        ),
+      })}
     >
       <BottomTabs.Screen
         name="AllExpenses"
@@ -73,13 +82,20 @@ export default function App() {
     <>
       <StatusBar style="light" />
       <NavigationContainer>
-        <Stack.Navigator>
+        <Stack.Navigator
+        screenOptions={{
+          headerStyle:{backgroundColor: GlobalStyles.colors.primary500},
+          headerTintColor:'white',
+        }}
+        >
           <Stack.Screen
             name="ExpensesOverview"
             component={ExpensesOverview}
             options={{ headerShown: false }}
           />
-          <Stack.Screen name="ManageExpense" component={ManageExpense} />
+          {/* Need to use 'npm i react-native-modal' to show native modal in both android and ios or could use 'react native paper modal' which is easier.*/}
+          <Stack.Screen name="ManageExpense" component={ManageExpense} options={{presentation:'modal'}}/>
+
         </Stack.Navigator>
       </NavigationContainer>
     </>
