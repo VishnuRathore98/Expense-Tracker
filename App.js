@@ -10,6 +10,7 @@ import { useState } from "react";
 import { GlobalStyles } from "./constants/styles";
 import { StatusBar, Text } from "react-native";
 import IconButton from "./components/UI/IconButton";
+import ExpenseContextProvider from "./store/expenses-context";
 
 const Stack = createNativeStackNavigator();
 const BottomTabs = createBottomTabNavigator();
@@ -81,6 +82,7 @@ export default function App() {
   return (
     <>
       <StatusBar style="light" />
+      <ExpenseContextProvider>
       <NavigationContainer>
         <Stack.Navigator
         screenOptions={{
@@ -98,6 +100,7 @@ export default function App() {
 
         </Stack.Navigator>
       </NavigationContainer>
+      </ExpenseContextProvider>
     </>
   );
 }

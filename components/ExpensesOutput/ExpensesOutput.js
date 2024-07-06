@@ -1,55 +1,33 @@
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import ExpensesList from "./ExpensesList";
 import ExpensesSummary from "./ExpensesSummary";
 import { GlobalStyles } from "../../constants/styles";
 
-export default function ExpensesOutput({ period }) {
+export default function ExpensesOutput({ expenses, period, fallbackText }) {
+  let content = <Text style={styles.infoText}>{fallbackText}</Text>;
+
+  if (expenses.length > 0) {
+    content = <ExpensesList expenses={expenses} />;
+  }
+
   return (
     <View style={styles.container}>
-      <ExpensesSummary expensePeriod={period} expenses={DUMMY_EXPENSES}/>
-      <ExpensesList expenses={DUMMY_EXPENSES}/>
+      <ExpensesSummary expensePeriod={period} expenses={expenses} />
+      {content}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container:{
-    flex:1,
-    backgroundColor:GlobalStyles.colors.primary700,
-    padding:24,
+  container: {
+    flex: 1,
+    backgroundColor: GlobalStyles.colors.primary700,
+    padding: 24,
   },
-
-});
-
-const DUMMY_EXPENSES = [
-  {
-    id: 'e1',
-    description: 'A pair of shoes',
-    amount: 59.99,
-    date: new Date('2021-12-19')
-  },
-  {
-    id: 'e2',
-    description: 'A pair of trousers',
-    amount: 89.29,
-    date: new Date('2022-01-05')
-  },
-  {
-    id: 'e3',
-    description: 'Some bananas',
-    amount: 5.99,
-    date: new Date('2021-12-01')
-  },
-  {
-    id: 'e4',
-    description: 'A book',
-    amount: 14.99,
-    date: new Date('2022-02-19')
-  },
-  {
-    id: 'e5',
-    description: 'Another book',
-    amount: 18.59,
-    date: new Date('2022-02-18')
+  infoText:{
+    color:'white',
+    fontSize:16,
+    textAlign:'center',
+    marginTop:32,
   }
-];
+});
