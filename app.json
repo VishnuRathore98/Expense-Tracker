@@ -9,7 +9,7 @@
     "splash": {
       "image": "./assets/money-bag.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#3e04c3"
     },
     "ios": {
       "supportsTablet": true
