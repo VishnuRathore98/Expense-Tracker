@@ -4,15 +4,19 @@ import { GlobalStyles } from "../constants/styles";
 import { useContext, useLayoutEffect } from "react";
 import { ExpensesContext } from "../store/expenses-context";
 import ExpenseForm from "../components/ManageExpense/ExpenseForm";
+import { deleteExpense, updateExpense, addExpense } from "../utils/http";
 
 function ManageExpense({ route, navigation }) {
   const expensesCtx = useContext(ExpensesContext);
   const editedExpenseId = route.params?.expenseId;
   const isEditing = !!editedExpenseId;
 
-  const defaultValues = expensesCtx.expenses.find(expense => expense.id === editedExpenseId);
+  const defaultValues = expensesCtx.expenses.find(
+    (expense) => expense.id === editedExpenseId
+  );
 
-  function deleteExpenseHandler() {
+  async function deleteExpenseHandler() {
+    await deleteExpense(editedExpenseId);
     expensesCtx.deleteExpense(editedExpenseId);
     navigation.goBack();
   }
@@ -21,10 +25,12 @@ function ManageExpense({ route, navigation }) {
     navigation.goBack();
   }
 
-  function confirmHandler(expenseData) {
+  async function confirmHandler(expenseData) {
     if (isEditing) {
-      expensesCtx.updateExpense(editedExpenseId,expenseData);
+      await updateExpense(editedExpenseId, expenseData);
+      expensesCtx.updateExpense(editedExpenseId, expenseData);
     } else {
+      await addExpense(expenseData);
       expensesCtx.addExpense(expenseData);
     }
     navigation.goBack();

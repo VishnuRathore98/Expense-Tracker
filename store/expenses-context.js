@@ -3,6 +3,7 @@ import { createContext, useReducer } from "react";
 // The below is the structure for context
 export const ExpensesContext = createContext({
   expenses: [],
+  setExpenses:(expenses)=>{},
   addExpense: ({ description, amount, date }) => {},
   updateExpense: (id, { description, amount, date }) => {},
   deleteExpense: (id) => {},
@@ -35,6 +36,10 @@ function expenseReducer(state, action) {
       // Return the updated data
       return updatedExpenses;
 
+    case 'SET':
+        const inverted = action.payload.reverse();
+        return inverted;
+
     case "DELETE":
       // To delete data we need to find it by index and then filter out all the data except whoes id matches.
       return state.filter((expense) => expense.id !== action.payload.id);
@@ -47,7 +52,7 @@ function expenseReducer(state, action) {
 
 // Let's see why this guy is using object destructuring for {chidren}
 export default function ExpenseContextProvider({children}) {
-  const [expensesState, dispatch] = useReducer(expenseReducer, DUMMY_EXPENSES);
+  const [expensesState, dispatch] = useReducer(expenseReducer, []);
 
   function addExpense(expenseData) {
     dispatch({ type: "ADD", payload: expenseData });
@@ -55,6 +60,10 @@ export default function ExpenseContextProvider({children}) {
 
   function updateExpense(id, expenseData) {
     dispatch({ type: "UPDATE", payload: { id: id, data: expenseData } });
+  }
+
+  function setExpenses(expenses) {
+    dispatch({ type: 'SET', payload: expenses });
   }
 
   function deleteExpense(id) {
@@ -65,6 +74,7 @@ export default function ExpenseContextProvider({children}) {
     expenses: expensesState,
     addExpense: addExpense,
     updateExpense: updateExpense,
+    setExpenses: setExpenses,
     deleteExpense: deleteExpense,
   };
 
